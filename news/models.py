@@ -24,7 +24,7 @@ class News(models.Model):
     title = models.CharField(max_length=255)
     cover = models.ImageField(upload_to='images')
     content = models.TextField()
-    excerpt = models.TextFIeld()
+    excerpt = models.TextField()
     status = models.IntegerField(choices=NewsStatus.choices)
     published_at = models.DateTimeField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -32,33 +32,32 @@ class News(models.Model):
 
     # set relasi ke tabel user dan category
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    categories = models.Many2ManyField(Category)
+    categories = models.ManyToManyField(Category)
 
     # set nama tabel
     class Meta:
         db_table = 'news'
         verbose_name_plural = 'News'
 
-        def __str__(self):
-            return self.title
+    def __str__(self):
+        return self.title
 
 
-    # Model untuk tabel comment
-    class Comment(models.Model):
+# Model untuk tabel comment
+class Comment(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)
 
-        name = models.CharField(max_length=100)
-        email = models.EmailField()
-        content = models.TextField()
-        created_at = models.DateTimeField(auto_new_add=True)
-        update_at = models.DateTimeField(auto_new=True)
 
+    # set relasi ke tabel news
+    news = models.ForeignKey(News, on_delete=models.CASCADE)
 
-        # set relasi ke tabel news
-        news = models.ForeignKey(News, on_delete=models.CASCADE)
-
-        # set nama tabel
-        class Meta:
-            db_table = 'comment'
-            verbose_name_plural = 'Comments'
+    # set nama tabel
+    class Meta:
+        db_table = 'comment'
+        # verbose_name_plural = 'Comments'
 
 
