@@ -1,0 +1,264 @@
+{
+	"info": {
+		"_postman_id": "8cc33c37-9c2d-4e54-9b23-22bc90ba8e30",
+		"name": "News App API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "Get List of Categories",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{url}}/category",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"category"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Teknologi",
+									"description": "filter by name (exact)",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": "Tekno",
+									"description": "search by name (contains)",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Returns a paginated array of Categories"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Detail of Category",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Token {{token}}",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{url}}/category/:id",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"category",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"type": "string",
+									"description": "required"
+								}
+							]
+						},
+						"description": "Return a single Category by id."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "News",
+			"item": [
+				{
+					"name": "Get List of News",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Token {{token}}",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{url}}/news",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"news"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": null,
+									"description": "filter by title (exact)",
+									"disabled": true
+								},
+								{
+									"key": "categories",
+									"value": null,
+									"description": "filter by categories (exact)",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": null,
+									"description": "search by title (contains)",
+									"disabled": true
+								},
+								{
+									"key": "published_before",
+									"value": "",
+									"description": "filter by published_at (date before)",
+									"disabled": true
+								},
+								{
+									"key": "published_after",
+									"value": null,
+									"description": "filter by published_at (date after)",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Returns a paginated array of published News."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Detail of News",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Token {{token}}",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{url}}/news/:id",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"news",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"type": "string",
+									"description": "required"
+								}
+							]
+						},
+						"description": "Return a single News by id."
+					},
+					"response": []
+				},
+				{
+					"name": "Create New Comment on News",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Rizqi",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "sakukode@gmail.com",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "content",
+									"value": "Halo dunia",
+									"description": "required",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/news/:id/comment",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"news",
+								":id",
+								"comment"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"type": "string",
+									"description": "required"
+								}
+							]
+						},
+						"description": "Create a new comment on news."
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": [
+			{
+				"key": "headerPrefix",
+				"value": "Token",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
