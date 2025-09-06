@@ -36,7 +36,6 @@ class UserUpdateForm(UserChangeForm):
         model = User
         fields = ('username', 'first_name', 'last_name',)
 
-# Mengeset Custom User Form ke modul User Admin
 class UserAdminForm(UserAdmin):
     add_form = UserCreateForm
     form = UserUpdateForm
@@ -58,7 +57,7 @@ class UserAdminForm(UserAdmin):
 
 # Mendaftarkan ulang User Admin
 admin.site.unregister(User)
-admin.site.register(User, UserAdminForm)
+admin.site.register(User, UserAdmin)
 
 
 # Menambahkan modul News ke Admin
@@ -78,7 +77,7 @@ class NewsAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         # menyimpan kolom "user" berdasarkan user yang login
         if not obj.user_id:
-            obj.user = request.user
+            obj.user_id = request.user
 
         if form.cleaned_data.get('status') == 1:
             # mengeset kolom "published_at" dengan nilai null jika status bernilai 1 (draft)
