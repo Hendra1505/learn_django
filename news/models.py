@@ -1,5 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
+# import class untuk menggenerate token user
+from django.conf import settings
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from rest_framework.authtoken.models import Token
 
 # model untuk tabel category
 class Category(models.Model):
@@ -13,6 +18,12 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+# Membuat Custom Manager untuk NewsModel
+class NewsManager(models.Manager):
+    # Menambahkan method untuk mem-filter news/berita yang hanya berstatus 'published'
+    def is_published(self):
+        return super().get_queryset().filter(status=News.NewsStatus.published)
 
 
 # model untuk tabel news
@@ -33,6 +44,9 @@ class News(models.Model):
     # set relasi ke tabel user dan category
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     categories = models.ManyToManyField(Category)
+    
+    # Menambahkan NewsManager
+    objects = NewsManager()
 
     # set nama tabel
     class Meta:
@@ -61,3 +75,8 @@ class Comment(models.Model):
         # verbose_name_plural = 'Comments'
 
 
+# Method untuk menggenerate sebuah token secara otomatis untuk Otentikasi Rest API ketika user dibuat
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
