@@ -7,6 +7,9 @@ from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView
 # import class untuk otentikasi rest api
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+# import package untuk menambahkan judul dan deskripsi pada dokumentasi API
+from drf_yasg.utils import swagger_auto_schema
+from django.utils.decorators import method_decorator
 # Import Category Model dan class serializers untuk modul aplikasi newsapp
 from .models import Category, News, Comment
 # import class serializers dari aplikasi newsapp
@@ -18,6 +21,9 @@ from .filters import NewsFilter
 # Create your views here.
 # Membuat view untuk API Endpoint "Get All Categories"
 # /api/category
+@method_decorator(name='get', decorator=swagger_auto_schema(
+    operation_id='Get List of Categories', operation_description='Returns a paginated array of Categories.'))
+
 class CategoryListView(ListAPIView):
     # mengeset class serializers
     serializer_class = CategoryListSerializer
@@ -43,6 +49,9 @@ class CategoryListView(ListAPIView):
 
 # Membuat View untuk API Endpoint "Get Detail of Category"
 # /api/category/:id
+@method_decorator(name='get', decorator=swagger_auto_schema(
+    operation_id='Get Detail of Category', operation_description='Return a single Category by id.'))
+
 class CategoryDetailView(RetrieveAPIView):
     # mengeset class serializers
     serializer_class = CategoryDetailSerializer
@@ -53,6 +62,9 @@ class CategoryDetailView(RetrieveAPIView):
 
 # Membuat View untuk API Endpoint "Get List of News"
 # /api/news
+@method_decorator(name='get', decorator=swagger_auto_schema(
+    operation_id='Get List of News', operation_description='Returns a paginated array of published News.'))
+
 class NewsListView(ListAPIView):
     serializer_class = NewsListSerializer
     # mengambil data news/berita yang hanya berstatus published
@@ -79,6 +91,9 @@ class NewsListView(ListAPIView):
 
 # Membuat View untuk API Endpoint "Get Detail of News"
 # /api/news/:id
+@method_decorator(name='get', decorator=swagger_auto_schema(
+    operation_id='Get Detail of News', operation_description='Return a single News by id.'))
+
 class NewsDetailView(RetrieveAPIView):
     serializer_class = NewsDetailSerializer
     # Mengambil data news/berita yang hanya berstatus published
@@ -89,6 +104,9 @@ class NewsDetailView(RetrieveAPIView):
 
 # Membuat View untuk API endpoint "Create New Comment on News"
 # /api/news/:id
+@method_decorator(name='post', decorator=swagger_auto_schema(
+    operation_id='Create New Comment on News', operation_description='Create a new comment on news.'))
+
 class NewsCreateCommentView(CreateAPIView):
     serializer_class = CommentFormSerializer
     queryset = Comment.objects.all()
