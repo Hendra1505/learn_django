@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django_filters', 
     # aplikasi kita
     'news.apps.NewsConfig',
+    # package untuk integrasi tools dokumentasi API
+    'drf_yasg',
     # aplikasi bawaan django
     'django.contrib.admin',
     'django.contrib.auth',
@@ -140,4 +142,15 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES':[
         'rest_framework.authentication.TokenAuthentication',
     ],
+}
+
+
+SWAGGER_SETTINGS={
+    'SECURITY_DEFINITIONS':{
+        'api_key':{
+            'type':'apiKey',
+            'in':'header',
+            'name':'Authorization'
+        }
+    },
 }
